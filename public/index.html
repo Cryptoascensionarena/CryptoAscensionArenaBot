@@ -1,59 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crypto Ascension Arena</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<style>
-  body {
-    margin: 0;
-    background: #0e0e11;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-
-  h1 {
-    margin-bottom: 20px;
-  }
-
-  button {
-    width: 80%;
-    max-width: 300px;
-    padding: 15px;
-    margin: 8px;
-    font-size: 18px;
-    border-radius: 12px;
-    border: none;
-    background: #ff6f61;
-    color: #fff;
-    cursor: pointer;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>Crypto Ascension Arena</title>
+  <style>
+    body, html { margin:0; padding:0; font-family:sans-serif; }
+    #portal-screen, #main-ui { width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; }
+    #main-ui { display:none; flex-direction:column; background-size:cover; background-position:center; }
+    #menu-icons { position:fixed; bottom:20px; width:100%; display:flex; justify-content:space-around; }
+    #menu-icons img { width:50px; height:50px; cursor:pointer; }
+  </style>
 </head>
-
 <body>
-  <h1>🔥 Crypto Ascension Arena</h1>
+  <!-- شاشة البورتال -->
+  <div id="portal-screen">
+    <img src="portal.png" alt="Portal" style="width:80%; max-width:400px;">
+  </div>
 
-  <button onclick="action('Daily Duel')">⚔️ Daily Duel</button>
-  <button onclick="action('Weekly Tournament')">🏆 Weekly Tournament</button>
-  <button onclick="action('Leaderboard')">📊 Leaderboard</button>
-  <button onclick="action('Profile')">👤 Profile</button>
+  <!-- واجهة النظام -->
+  <div id="main-ui" style="background-image:url('home_bg.png');">
+    <img src="daily_duel_bg.png" alt="Daily Duel" style="width:90%; max-width:600px; margin-top:50px;">
 
-<script>
-  const tg = window.Telegram.WebApp;
-  tg.ready();
+    <!-- شريط الأيقونات -->
+    <div id="menu-icons">
+      <img src="icon_home.png" alt="Home">
+      <img src="icon_profile.png" alt="Profile">
+      <img src="icon_daily.png" alt="Daily Duel">
+      <img src="icon_tournament.png" alt="Tournament">
+      <img src="icon_leaderboard.png" alt="Leaderboard">
+      <!-- أكمل باقي الأيقونات حسب الحاجة -->
+    </div>
+  </div>
 
-  function action(name) {
-    tg.showAlert(name + ' (Demo)');
-  }
-</script>
+  <script>
+    // يظهر البورتال 2 ثانية وبعدين الواجهة الرئيسية
+    setTimeout(() => {
+      document.getElementById('portal-screen').style.display = 'none';
+      document.getElementById('main-ui').style.display = 'flex';
+    }, 2000);
+  </script>
 </body>
 </html>
