@@ -2,48 +2,32 @@ const express = require('express');
 const TelegramBot = require('node-telegram-bot-api');
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-if (!TOKEN) {
-  throw new Error('TELEGRAM_BOT_TOKEN is missing');
-}
+if (!TOKEN) throw new Error('TELEGRAM_BOT_TOKEN is missing');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 🔴 المهم: ربط الواجهة
-app.use(express.static('public'));
-
-// Telegram Bot
+// Telegram Bot (Long Polling)
 const bot = new TelegramBot(TOKEN, { polling: true });
 
 // Commands
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(
     msg.chat.id,
-    '🔥 Welcome to Crypto Ascension Arena\n\nTap OPEN to enter the arena.'
+    '🔥 Welcome to Crypto Ascension Arena\n\nDaily duels. Weekly tournaments.\nCommunity decides.'
   );
 });
+bot.onText(/\/dailyduel/, (msg) => { bot.sendMessage(msg.chat.id, '⚔️ Daily Duel (Demo)'); });
+bot.onText(/\/tournament/, (msg) => { bot.sendMessage(msg.chat.id, '🏆 Weekly Tournament (Demo)'); });
+bot.onText(/\/leaderboard/, (msg) => { bot.sendMessage(msg.chat.id, '📊 Leaderboard (Demo)'); });
+bot.onText(/\/profile/, (msg) => { bot.sendMessage(msg.chat.id, '👤 Your Profile (Demo)'); });
 
-bot.onText(/\/dailyduel/, (msg) => {
-  bot.sendMessage(msg.chat.id, '⚔️ Open the app to view Daily Duel');
-});
+// Express static files
+// ربط كل ملفات public بأي مسار، بما في ذلك /app
+app.use('/', express.static('public'));
+app.use('/app', express.static('public'));
 
-bot.onText(/\/tournament/, (msg) => {
-  bot.sendMessage(msg.chat.id, '🏆 Open the app to view Tournament');
-});
+// فقط لتأكيد أن السيرفر شغال
+app.get('/', (req, res) => { res.send('Crypto Ascension Arena Bot is running.'); });
 
-bot.onText(/\/leaderboard/, (msg) => {
-  bot.sendMessage(msg.chat.id, '📊 Open the app to view Leaderboard');
-});
-
-bot.onText(/\/profile/, (msg) => {
-  bot.sendMessage(msg.chat.id, '👤 Open the app to view your profile');
-});
-
-// Root check
-app.get('/', (req, res) => {
-  res.send('Crypto Ascension Arena Web App is running.');
-});
-
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+app.listen(PORT, () => { console.log(`Server listening on port ${PORT}`); });
