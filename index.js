@@ -9,36 +9,39 @@ if (!TOKEN) {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Telegram Bot (Long Polling)
+// 🔴 المهم: ربط الواجهة
+app.use(express.static('public'));
+
+// Telegram Bot
 const bot = new TelegramBot(TOKEN, { polling: true });
 
 // Commands
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(
     msg.chat.id,
-    '🔥 Welcome to Crypto Ascension Arena\n\nDaily duels. Weekly tournaments.\nCommunity decides.'
+    '🔥 Welcome to Crypto Ascension Arena\n\nTap OPEN to enter the arena.'
   );
 });
 
 bot.onText(/\/dailyduel/, (msg) => {
-  bot.sendMessage(msg.chat.id, '⚔️ Daily Duel (Demo)');
+  bot.sendMessage(msg.chat.id, '⚔️ Open the app to view Daily Duel');
 });
 
 bot.onText(/\/tournament/, (msg) => {
-  bot.sendMessage(msg.chat.id, '🏆 Weekly Tournament (Demo)');
+  bot.sendMessage(msg.chat.id, '🏆 Open the app to view Tournament');
 });
 
 bot.onText(/\/leaderboard/, (msg) => {
-  bot.sendMessage(msg.chat.id, '📊 Leaderboard (Demo)');
+  bot.sendMessage(msg.chat.id, '📊 Open the app to view Leaderboard');
 });
 
 bot.onText(/\/profile/, (msg) => {
-  bot.sendMessage(msg.chat.id, '👤 Your Profile (Demo)');
+  bot.sendMessage(msg.chat.id, '👤 Open the app to view your profile');
 });
 
-// Express فقط عشان Render
+// Root check
 app.get('/', (req, res) => {
-  res.send('Crypto Ascension Arena Bot is running.');
+  res.send('Crypto Ascension Arena Web App is running.');
 });
 
 app.listen(PORT, () => {
